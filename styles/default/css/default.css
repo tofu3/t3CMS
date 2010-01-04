@@ -1,0 +1,24 @@
+* {font-family: Sans-serif}
+
+h1 {letter-spacing: -0.05em; margin:0px; color: #eee;}
+h3 {letter-spacing: -0.05em; margin:0px; color: #222;}
+
+html,body {margin:0px; height:100%}
+
+#ttpan {height:20px;}
+#tcont {width: 100%; height: 100%}
+#thead {
+    width: 800px;
+    height: 120px;
+    text-align: center;
+    background-color: #226644;
+    -moz-border-radius: 10 10 0 0px;
+}
+#tmenu {height: 30px; background: #ccc}
+#tmenu a {text-decoration: none; color: #333}
+#tmain {vertical-align: top; background-color: #eee; padding: 10px}
+#tfoot {height: 30px; text-align: center; background-color: #ddd; color: #888}
+#smenu {vertical-align: top; padding: 5px; background-color: #eee; width: 160px; border-right: 1px #ccc dashed}
+#smenu a {text-decoration: none; color: #333; margin-left: 18px; display:block; margin-top: 3px; margin-bottom: 3px}
+#smenu h3 a {margin-left: 4px}
+a.active {text-decoration: underline!important}

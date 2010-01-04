@@ -1,0 +1,41 @@
+/*
+ t3CMS:debug.css
+ stylesheet for debugging purposes.
+*/
+
+ #debug {
+    background: transparent;
+    position: fixed;
+    top: -10px;
+    left: 0px;
+    width: 92px;
+    overflow: auto;
+    font-family:monospace;
+    opacity: .5;
+ }
+ 
+ #debugsub {display:none}
+ 
+ #debug h2 {margin:5px;padding:0px;font-family:monospace}
+ #debug .varlist {
+    font-family: monospace, mono;
+    display: none;
+    background: #ddd;
+    margin: 5px;
+    margin-top: -12px;
+    -moz-border-radius: 0 0 5 5px;
+    padding: 5px;
+ }
+ #debug a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    background:#ddd;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    display: block;
+    margin: 5 5 0 5px;
+    margin-bottom: 0px;
+    }
+

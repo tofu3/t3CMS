@@ -1,0 +1,10 @@
+# t3CMS:.htaccess
+# mod_rewrite config
+# TODO: Cleaner syntax, static page linkage
+
+ RewriteEngine On
+ RewriteBase /t3CMS/
+ RewriteCond %{REQUEST_FILENAME} -f [OR]
+ RewriteCond %{REQUEST_FILENAME} -d
+ RewriteRule ^.*$ - [S=35]
+ RewriteRule ^admin/?$				admin.php [QSA,L]
