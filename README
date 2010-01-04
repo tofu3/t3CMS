@@ -1,6 +1,12 @@
 README for t3CMS
 ----------------
 
+ t3CMS is a Content Management System, written with smaller enterprise web pages in mind.
+ It uses tinyMCE and (soon) skycache.
+ Written in PHP, HTML, CSS and JavaScript.
+ 
+ Approriate copyright information should be added where needed.
+
 Contents
 --------
 
@@ -9,23 +15,27 @@ Contents
  3. Usage 
   3a. Access page types
 
-Notes
------
+1. Notes
+--------
+ Pre-alpha version.
 
+2. Installation
+---------------
+ You will (for now) need to download tinyMCE and make your own test database.
+ There should be a zip-file containing non-branch development files, including
+ these mentioned above, at the github downloads-page for t3CMS:
+    http://github.com/tofu3/t3CMS/downloads
+ 
+3. Usage
+--------
 
+ 3a. Access page types (!Proposed!)
+ ---------------------
 
-Installation
-------------
-
-
-
-Access page types
------------------
-
-Regular pages ("static" pages):
+  Regular pages ("static" pages):
     http://t3cms/s/pageName
 
-Dynamic pages ("live" pages):
+  Dynamic pages ("live" pages):
     http://t3cms/l/pageName
     
-Regular pages cannot be debugged and has to be rendered every time the data changes.
+  Regular pages cannot be debugged and has to be rendered every time the data changes.
