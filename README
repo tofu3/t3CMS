@@ -1,0 +1,31 @@
+README for t3CMS
+----------------
+
+Contents
+--------
+
+ 1. Notes
+ 2. Installation
+ 3. Usage 
+  3a. Access page types
+
+Notes
+-----
+
+
+
+Installation
+------------
+
+
+
+Access page types
+-----------------
+
+Regular pages ("static" pages):
+    http://t3cms/s/pageName
+
+Dynamic pages ("live" pages):
+    http://t3cms/l/pageName
+    
+Regular pages cannot be debugged and has to be rendered every time the data changes.
