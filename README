@@ -2,7 +2,7 @@ README for t3CMS
 ----------------
 
  t3CMS is a Content Management System, written with smaller enterprise web pages in mind.
- It uses tinyMCE and (soon) skycache.
+ It uses tinyMCE and (probably) skycache.
  Written in PHP, HTML, CSS and JavaScript.
  
  Approriate copyright information should be added where needed.
@@ -39,3 +39,5 @@ Contents
     http://t3cms/l/pageName
     
   Regular pages cannot be debugged and has to be rendered every time the data changes.
+  
+  Alternative: Use a cache, ie. skycache.

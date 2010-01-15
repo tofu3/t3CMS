@@ -21,17 +21,30 @@ body {background-color: #ccc}
 #tleft  {background: -moz-linear-gradient(0deg, #eee, #ccc);/*Mozilla Gradient*/
          background: -webkit-gradient(linear, left top, right top, color-stop(0, #eee), color-stop(1, #ccc)); /*WebKit Gradient*/
         }
-#tright {background: -moz-linear-gradient(180deg, #eee, #ccc 96%, #aaa);/*Mozilla Gradient*/
-         background: -webkit-gradient(linear, right top, left top, color-stop(0, #eee), color-stop(0.96, #ccc), color-stop(1, #aaa)); /*WebKit Gradient*/
+#tright {background: -moz-linear-gradient(180deg, #eee, #ccc);/*Mozilla Gradient*/
+         background: -webkit-gradient(linear, right top, left top, color-stop(0, #eee), color-stop(1, #ccc)); /*WebKit Gradient*/
 
 }
+#shadow {background-color: #f0f; height: 100%; width: 5px}
+#tright #shadow {
+        background: -moz-linear-gradient(180deg, #ccc, #aaa);/*Mozilla Gradient*/
+        background: -webkit-gradient(linear, right top, left top, color-stop(0, #ccc), color-stop(1, #aaa)); /*WebKit Gradient*/
+}
+#tleft  #shadow {background: transparent}
 #tmenu {height: 30px; background: #042}
-#tmain {vertical-align: top; background-color: #fff; padding: 10px}
+#tmain {vertical-align: top; background-color: #fff; padding: 10px;
+    background: -moz-linear-gradient(90deg, #fff 99%, #aaa);/*Mozilla Gradient*/
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.99, #fff), color-stop(1, #aaa)); /*WebKit Gradient*/
+}
 #tfoot {height: 30px; text-align: center; background-color: #ddd; color: #999;
     text-shadow: #eee 1px 1px; border-top: 1px #aaa solid; font-size: 12px}
-#smenu {vertical-align: top; padding: 5px; background-color: #eee; width: 160px; border-right: 1px #ccc solid;}
+#smenu {vertical-align: top; padding: 5px; background-color: #eee; width: 160px; border-right: 1px #aaa solid;
+    background: -moz-linear-gradient(90deg, #eee 99%, #aaa);/*Mozilla Gradient*/
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.99, #eee), color-stop(1, #aaa)); /*WebKit Gradient*/
+}
 #smenu a {text-decoration: none; color: #333; margin-left: 18px; display:block; margin-top: 3px; margin-bottom: 3px}
 #smenu h3 a {margin-left: 4px}
+#tmain a {color: #486}
 a.active {text-decoration: underline!important}
 #tmenu div {
     background-color: #ddd;

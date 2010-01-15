@@ -1,8 +1,8 @@
 <table id="tcont" border="0" cellspacing="0" cellpadding="0">
  <tr>
-  <td rowspan="4" id="tleft">&nbsp;</td>
+  <td rowspan="4" id="tleft"><div id="shadow"></div></td>
   <td id="thead"><h1><?=$title.': '.$page_title?></h1></td>
-  <td rowspan="4" id="tright">&nbsp;</td>
+  <td rowspan="4" id="tright"><div id="shadow"></div></td>
  </tr>
  <tr>
   <td id="tmenu"><div><?php do_menu(0) ?></div></td>
