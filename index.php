@@ -19,6 +19,8 @@
  $sel_style = db_setting('style');
  $style_root = "styles/$sel_style";
  
+ $url_style = $_GET['urlstyle']?$_GET['urlstyle']:'ugly';
+ 
  list($page_title, $page_type, $page_content, $page_name, $page_id, $page_sub) = get_page();
  #$subpages = get_subpages($page_name);
  $type_root = "pt/$page_type";

@@ -23,11 +23,18 @@
  }
  
  function build_menu($data,$orient){
+    global $url_style;
     foreach ($data as $item){
         $class = $item[3]?' class="active"':'';
         switch($item[1]){
-            #case 'page': $url = 's/'.$item[2]; break;
-            case 'page': $url = '?page='.$item[2]; break; // Used when no .htaccess is present
+            case 'page':
+                if($url_style != 'pretty'){
+                    $url = '?page='.$item[2];// Used when no .htaccess is present
+                }
+                else {
+                    $url = './'.$item[2]; break;
+                }
+                break; 
             case 'redir': $url = $item[2]; break;
             default: $url = '#';
         }
