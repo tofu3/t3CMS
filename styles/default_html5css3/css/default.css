@@ -1,0 +1,60 @@
+* {font-family: Sans-serif}
+
+h1,h2,h3 {letter-spacing: -0.05em; margin:0px;}
+#thead h1 {color: #eee; text-shadow: #042 2px 2px}
+h3 {color: #222;}
+
+html,body {margin:0px; height:100%}
+
+body {background-color: #ccc}
+
+#ttpan {height:20px; background: -moz-linear-gradient(0deg, #ccc, #aaa)} /*Mozilla Gradient*/
+#tcont {width: 100%; height: 100%}
+#thead {
+    width: 800px;
+    height: 120px;
+    text-align: center;
+    background-color: #264;
+    background: -moz-linear-gradient(90deg, #042, #486); /*Mozilla Gradient*/
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #486), color-stop(1, #042)); /*WebKit Gradient*/
+}
+#tleft  {background: -moz-linear-gradient(0deg, #eee, #ccc);/*Mozilla Gradient*/
+         background: -webkit-gradient(linear, left top, right top, color-stop(0, #eee), color-stop(1, #ccc)); /*WebKit Gradient*/
+        }
+#tright {background: -moz-linear-gradient(180deg, #eee, #ccc 96%, #aaa);/*Mozilla Gradient*/
+         background: -webkit-gradient(linear, right top, left top, color-stop(0, #eee), color-stop(0.96, #ccc), color-stop(1, #aaa)); /*WebKit Gradient*/
+
+}
+#tmenu {height: 30px; background: #042}
+#tmain {vertical-align: top; background-color: #fff; padding: 10px}
+#tfoot {height: 30px; text-align: center; background-color: #ddd; color: #999;
+    text-shadow: #eee 1px 1px; border-top: 1px #aaa solid; font-size: 12px}
+#smenu {vertical-align: top; padding: 5px; background-color: #eee; width: 160px; border-right: 1px #ccc solid;}
+#smenu a {text-decoration: none; color: #333; margin-left: 18px; display:block; margin-top: 3px; margin-bottom: 3px}
+#smenu h3 a {margin-left: 4px}
+a.active {text-decoration: underline!important}
+#tmenu div {
+    background-color: #ddd;
+    background: -moz-linear-gradient(90deg, #ccc, #eee); /*Mozilla Gradient*/
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ccc), color-stop(1, #eee)); /*WebKit Gradient*/
+    -moz-border-radius: 8 8 0 0px; /*Mozilla Border Radius*/
+    border-radius: 8 8 0 0px; /*W3 Border Radius*/
+    height: 25px; 
+    padding-top: 5px;
+    padding-left: 4px;
+}
+#tmenu a {
+    padding: 3 5 3 5px;
+    font-size: 15px; text-shadow: #eee 1px 1px;
+    text-decoration: none; color: #555;
+    }
+#tmenu a:hover {color: #111;}
+#tmenu a.active {
+    color: #111;
+    text-decoration: none!important;
+    background: #eee;
+    -moz-border-radius: 8px; /*Mozilla Border Radius*/
+    border-radius: 8px; /*Border Radius*/
+    border: 1px #777 solid;
+    border-bottom: 0px; border-right: 0px;
+    }
