@@ -2,3 +2,16 @@ TODO
 ----
 
 Note: Use the wave 't3CMS Development' for general discussion about t3CMS development.
+
+Browser Compability:
+
+ IOFCS  Area                Comments
+[     ] Admin pages         no browser works 100%, firefox works ~96%
+[xxxxx] Default style       ugly but looks good in all browsers
+[  xxx] Good looking style  Uses non-standarized css values; gradients and border-radius
+
+I = Internet Explorer 8
+O = Opera 10
+F = Firefox 3.6
+C = Chrome 4
+S = Safari 4
