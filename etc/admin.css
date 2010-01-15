@@ -63,6 +63,37 @@ html,body {width:100%;height:100%;margin:0px}
 
 }
 
+/*
+ "Add"-tab font styles
+*/
+#add td {
+    font-size: 26px;
+    width: 300px;
+}
+
+#add a.help { /* Replace with an image, perhaps? */
+    font-size: 18px; font-weight: bold; background-color: #0088dd; color: #fff;
+    width: 26px; height: 26px; text-align:center; vertical-align: center;
+    text-decoration: none; display: block; border-radius: 13px; -moz-border-radius: 13px;
+    padding-top: 2px; padding-right: 1px;
+    border: 1px black solid;
+}
+
+#add input, #add select {
+    font-size: 26px;
+    width: 500px;
+}
+
+#add #submit {
+    text-align: center; vertical-align: middle;
+    margin: 60px;
+}
+
+#add td.submit {padding-top: 20px}
+
+/*
+ Generic tab styles
+*/
 .tabcontainer h3 {padding: 20px; font-size: 22px; margin: 0px}
 
 .tabcontainer {

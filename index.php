@@ -19,7 +19,9 @@
  $sel_style = db_setting('style');
  $style_root = "styles/$sel_style";
  
- $url_style = $_GET['urlstyle']?$_GET['urlstyle']:'ugly';
+ $url_style = $_GET['urlstyle']?$_GET['urlstyle']:'ugly'; // Default to ugly for now
+ // Ugly style:   t3CMS/?page=pagename
+ // Pretty style: t3CMS/pagename
  
  list($page_title, $page_type, $page_content, $page_name, $page_id, $page_sub) = get_page();
  #$subpages = get_subpages($page_name);

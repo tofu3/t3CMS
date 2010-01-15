@@ -50,8 +50,10 @@ a.active {text-decoration: underline!important}
     background-color: #ddd;
     background: -moz-linear-gradient(90deg, #ccc, #eee); /*Mozilla Gradient*/
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ccc), color-stop(1, #eee)); /*WebKit Gradient*/
-    -moz-border-radius: 8 8 0 0px; /*Mozilla Border Radius*/
-    border-radius: 8 8 0 0px; /*W3 Border Radius*/
+    /*
+    -moz-border-radius: 8 8 0 0px; /*Mozilla Border Radius* /
+    border-radius: 8 8 0 0px; /*W3 Border Radius* /
+    */
     height: 25px; 
     padding-top: 5px;
     padding-left: 4px;

@@ -47,6 +47,26 @@
     // TODO: Add this.
  }
  
+ function db_new_row($table,$updates){
+    global $_DB;
+    foreach($updates as $ident=>$value){
+        $ids .= "','".$ident;
+        $vls .= "','".$value;
+    }
+    $ids = substr($ids,2)."'"; // Turn ','a','b','c into 'a','b','c'
+    $vls = substr($vls,2)."'"; // dito
+    $q = "INSERT INTO $table ($ids) VALUES ($vls)";
+    $r = $_DB->query($q);
+    if(!$r){
+        print _e(E_DATABASE_MISC);
+        $ei = $_DB->errorInfo();
+        #if ($_D)
+        print $ei[2]."<br/>\n";
+        print_r(htmlentities($q));
+        die();
+    }
+ }
+ 
   function db_update($table,$name,$updates){
     global $_DB;
     foreach($updates as $ident=>$value){

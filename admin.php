@@ -14,11 +14,17 @@
     die(a_save_and_redir());
  }
  
- 
- $page_type=a_get_page_type();
- if($page_type){
+ $a_edit_new = $_GET['page']=='_new'?True:False;
+ if($a_edit_new){
+  $_GET['page'] = '';
+  $page = array('type'=>'');
+ }
+ else {
+  $page_type=a_get_page_type();
+  if($page_type){
     $type_root = "pt/$page_type";
     include("pt/$page_type/inc.admin.php");
+  }
  }
 
 ?>
@@ -47,10 +53,10 @@
      <div>
       <b>pages</b>
 <?php a_do_pages() ?>
-      <a class="add" href="#">+ Add page&nbsp;</a>
+      <a class="add" href="?edit=page&page=_new&tab=add">+ Add page&nbsp;</a>
       <b>menus</b>
 <?php a_do_menus() ?>
-      <a class="add" href="#">+ Add menu&nbsp;</a>
+      <a class="add" href="?edit=menu&menu=_new&tab=add">+ Add menu&nbsp;</a>
       <b>settings</b>
       <a href="?edit=setting&setting=appearence">appearence</a>
       <a href="?edit=setting&setting=users">users</a>
@@ -64,7 +70,13 @@
      </div>
     </td>
     <td id="tmain">
-<?php if ($_GET['edit']=='page'){ a_do_edit_page($_GET['page'],$_GET['tab']); } ?>
+<?php
+    switch($_GET['edit']){
+        case('page'): a_do_edit_page($_GET['page'],$_GET['tab']); break;
+        case('menu'): a_do_edit_menu($_GET['menu']); break;
+        default: print ''; break;
+    }
+?>
     </td>
    </tr>
   </table>

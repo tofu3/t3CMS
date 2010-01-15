@@ -26,9 +26,15 @@
  
  function a_do_tabs($page,$sel){
     global $a_ext_tabs;
-    $tabarray['content'] = array('Content');
-    $tabarray['settings'] = array('Settings');
-    foreach($a_ext_tabs as $etident => $ettitle) $tabarray[$etident] = $ettitle;
+    global $a_edit_new;
+    if(!$a_edit_new){
+        $tabarray['content'] = array('Content');
+        $tabarray['settings'] = array('Settings');
+    }
+    else {
+        $tabarray['add'] = array('Add page');
+    }
+    if($a_ext_tabs) foreach($a_ext_tabs as $etident => $ettitle) $tabarray[$etident] = $ettitle;
     $r = '';
     foreach($tabarray as $tabident => $tabdata){
         $active = $tabident==$sel?' tabactive':'';
@@ -64,14 +70,33 @@
  
  function a_save_and_redir(){
     $type = $_GET['save'];
+    $tab = $_GET['tab'];
     $red  = base64_decode($_GET['red']);
     $red==''?$red='?':0;
     $err  = '';
     switch($type){
         case('page'):
-            $page = $_GET['page'];
-            $updates = array('content'=>$_POST['content']);
-            db_update('pages',$page,$updates);
+            switch($tab) {
+                case('content'):
+                    $page = $_GET['page'];
+                    $updates = array('content'=>$_POST['content']);
+                    db_update('pages',$page,$updates);
+                    break;
+                case('add'):
+                    $updates = array(
+                        'name' => $_POST['_newp_name'],
+                        'title' => $_POST['_newp_title'],
+                        'type' => $_POST['_newp_type'],
+                        'sub' => $_POST['_newp_location']
+                    );
+                    db_new_row('pages',$updates);
+                    $page = $_POST['_newp_name'];
+                    $red = "?page=$page&edit=page&tab=content";
+                    break;
+                default:
+                    $err = '&errorid='.E_UNKNOWN_SAVE;
+                    break;
+                }
             break;
         case('menu'):
             $err = '&errorid='.E_NOT_IMPLEMENTED;
@@ -85,15 +110,22 @@
  
  function a_do_edit_page($page,$tab){
     global $_DB;
+    global $a_new_page;
     $tab=$tab?$tab:'content';
-	$r = db_page($page);
+    if($a_new_page){
+        $title = 'New page';
+    }
+    else{
+        $r = db_page($page);
+        $title = $r['title'];
+    }
     $red = base64_encode("?edit=page&page=$page");
     $content = htmlentities($r['content']);
 	print <<<END
-    <form style="display:block;height:100%;margin:0px;padding:0px;" action="?save=page&page=$page&red=$red" method="post">
+    <form style="display:block;height:100%;margin:0px;padding:0px;" action="?save=page&page=$page&tab=$tab&red=$red" method="post">
      <table style="height:100%;padding-top:6px" width="100%" height="100%">
       <tr>
-       <td height="14"><h3 style="margin:0px;display:inline;margin-left:10px">{$r['title']}&nbsp;</h3>
+       <td height="14"><h3 style="margin:0px;display:inline;margin-left:10px">$title&nbsp;</h3>
 
 END;
     print a_do_tabs($page,$tab);
@@ -111,6 +143,49 @@ END;
     if($tab == 'settings'){
         print "        <div id=\"settings\" class=\"tabcontainer\"><h3>Nothing here yet...</h3></div>\n";
     }
+    elseif($tab == 'add') {
+        print <<<END
+        <div id="add" class="tabcontainer">
+         <h3>Add a new page</h3>
+        <table>
+         <tr>
+          <td align="right">Page Title:</td>
+          <td><input name="_newp_title" id="_title" onchange="title2name()" class="bigtext" /></td>
+          <td><a class="help" href="javascript:showhelp('new_page_title')">?</a></td>
+         </tr>
+         <tr>
+          <td align="right">Page Name:</td>
+          <td><input name="_newp_name" id="_name" onchange="title2name()" class="bigtext" /></td>
+          <td><a class="help" href="javascript:showhelp('new_page_name')">?</a></td>
+         </tr>
+         <tr>
+          <td align="right">Page Type:</td>
+          <td>
+           <select name="_newp_type" class="bigtext">
+            <option value="html">HTML</option>
+            <option value="guestbook">Guestbook</option>
+            <option value="news">News</option>
+           </select>
+          </td>
+          <td><a class="help" href="javascript:showhelp('new_page_type')">?</a></td>
+         </tr>
+         <tr>
+          <td align="right">Create where?</td>
+          <td>
+           <select name="_newp_location" class="bigtext">
+            <option value="_">/</option>
+           </select>
+          </td>
+          <td><a class="help" href="javascript:showhelp('new_page_location')">?</a></td>
+         </tr>
+         <tr>
+          <td colspan="2" align="right" class="submit"><a class="butlink" href="javascript:title2name(); document.forms[0].submit()">Create page!</a></td>
+          <td>&nbsp;</td>
+         </tr>
+        </table>
+        </div>
+END;
+    }
     elseif($tab == 'content') {
         print "        <textarea id=\"content\" name=\"content\">$content</textarea>\n";
     }
@@ -123,4 +198,41 @@ END;
 
 END;
  }
+ 
+ function a_do_edit_menu($menu){
+    global $_DB;
+    global $a_new_menu;
+    #$tab=$tab?$tab:'content';
+    $red = base64_encode("?edit=page&page=$page");
+
+	print <<<END
+    <form style="display:block;height:100%;margin:0px;padding:0px;" action="?save=menu&menu=$menu&red=$red" method="post">
+     <table style="height:100%;padding-top:6px" width="100%" height="100%">
+      <tr>
+       <td height="14">
+        <h3 style="margin:0px;display:inline;margin-left:10px">Edit menu</h3>
+       </td>
+       <td style="text-align:right;padding-right:10px;height:30px">
+        <a href="javascript:deleteMenu()" class="butlink butdanger">Delete menu</a>
+        <a href="javascript:document.forms[0].submit()" class="butlink">Save changes</a>
+       </td>
+      </tr>
+      <tr>
+       <td colspan="3" style="padding:10px;padding-top:0px">
+        <div id="menu" class="tabcontainer">
+         <h3>Current menu items:</h3>
+END;
+print 'lala';
+print <<<END
+         <h3>Add items:</h3>
+         <select><option>lala</option></select>
+        </div>
+       </td>
+      </tr>
+     </table>
+    </form>
+
+END;
+ }
+ 
 ?>

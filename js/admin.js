@@ -4,6 +4,23 @@
  TODO: Fix TinyMCE size
 */
 
+function title2name(){
+    var delay = 400;
+    var maxlen = 16;
+    var repchar = '_';
+    var a = document.getElementById('_name');
+    var b = document.getElementById('_title');
+    s = b.value;
+    if(s.length>maxlen) s = s.substr(0,maxlen-2) + '_1';
+    s = s.toLowerCase();
+    s = s.replace(/[å|ä|æ|à|á|â|ã]/g,'a');
+    s = s.replace(/[ö|ø|ò|ó|õ|ô]/g,'o');
+    s = s.replace(/[ñ]/g,'n');
+    s = s.replace(/[^a-z|_|0-9]/g,repchar);
+    a.value = s;
+    //setTimeout('t2n()', delay);
+}
+
 function setAutoResize(ed)
 {   
     //Function to fix iframe to document height
