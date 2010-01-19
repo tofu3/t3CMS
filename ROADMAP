@@ -1,0 +1,31 @@
+Roadmap for t3CMS
+-----------------
+
+ A pretty loose roadmap for t3CMS development.
+
+ Milestone 1
+ Administration panel and default style fully functional under priority-browsers (firefox and chrome).
+ 
+ Milestone 2
+ Alternative styles and scripts for IE and Opera fully functional.
+ 
+ -> Fork to Unstable 0.1
+ 
+ Milestone 3
+ All page types fully functional
+ 
+ -> Merge to Unstable
+ 
+ Milestone 4
+ page type and style API locking (for version 0.x)
+ Documentation for page type and style APIs more or less completed.
+
+ Milestone 5
+ jQuery support
+ 
+ -> Fork to Unstable 1.0
+ 
+ Milestone 6
+ Removing bugs, beta testing
+ 
+ -> Fork to Stable 1.0
