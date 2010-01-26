@@ -12,7 +12,7 @@
     global $page_sub;
     # Menu syntax: ('Name','Type','url')
     #$menudata = array(array('Home','redir','./'),array('Guestbook','page','guestbook'));
-    foreach($_DB->query("SELECT label,type,link FROM menus WHERE menu='$id'") as $r){
+    foreach($_DB->query("SELECT label,type,link FROM menus WHERE menu='$id' ORDER BY sorting") as $r){
         $linkname = $r['link'];
         $linkname=='./'?$linkname=db_setting('default_page'):0;
         $active = ($page_name==$linkname)||($page_sub==$linkname)?1:0;

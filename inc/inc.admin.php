@@ -17,11 +17,30 @@
  
  function a_do_pages($sub = '_', $lvl = 0){
     global $_DB;
-    foreach ($_DB->query("SELECT * FROM pages where sub='$sub';") as $r){
+    $active_page = $_GET['page'];
+    foreach ($_DB->query("SELECT * FROM pages where sub='$sub' ORDER BY special,id") as $r){
         $spacing = str_repeat('&rarr;&nbsp;&nbsp;',$lvl);
-        print "   <a href=\"?edit=page&page={$r['name']}\">$spacing{$r['title']}</a>\n";
+        $active = $active_page==$r['name']?' active':'';
+        print "   <a href=\"?edit=page&page={$r['name']}\" class=\"$active\">$spacing{$r['title']}</a>\n";
         a_do_pages($r['name'], $lvl+1);
     }
+ }
+ 
+  function a_get_menu_items($menu){
+    global $_DB;
+    $retarr = array();
+    foreach ($_DB->query("SELECT * FROM menus where menu='$menu' ORDER BY sorting") as $r){
+        $retarr[] = array($r['type'],$r['label'],$r['link'],$r['id']);
+    }
+    return $retarr;
+ }
+
+ function a_get_nonmenu_items(){
+    global $_DB;
+    foreach ($_DB->query("SELECT * FROM pages where sub='_'") as $r){
+        $retarr[] = array($r['name'],$r['title']);
+    }
+    return $retarr;
  }
  
  function a_do_tabs($page,$sel){
@@ -61,16 +80,24 @@
     print "      </div>\n";
  }
  
-  function a_get_page_type(){ // Light version made for admin-pages, TODO: Move this?
-    $page=$_GET['page'];
+  function a_get_page_type($page = False){ // Light version made for admin-pages, TODO: Move this?
+    if (!$page) $page=$_GET['page'];
     if (!$page) return 0;
     $pagedata = db_page($page);
     return $pagedata['type'];
  }
  
+  function a_get_page_title($page = False){ // Light version made for admin-pages, TODO: Move this?
+    if (!$page) $page=$_GET['page'];
+    if (!$page) return 0;
+    $pagedata = db_page($page);
+    return $pagedata['title'];
+ }
+ 
  function a_save_and_redir(){
     $type = $_GET['save'];
     $tab = $_GET['tab'];
+    $sub = $_GET['sub'];
     $red  = base64_decode($_GET['red']);
     $red==''?$red='?':0;
     $err  = '';
@@ -94,12 +121,54 @@
                     $red = "?page=$page&edit=page&tab=content";
                     break;
                 default:
-                    $err = '&errorid='.E_UNKNOWN_SAVE;
+                    $err = '&errorid='.E_NOT_IMPLEMENTED;
                     break;
                 }
             break;
         case('menu'):
-            $err = '&errorid='.E_NOT_IMPLEMENTED;
+            switch($sub){
+                case('additem'):
+                    $link = $_POST['target'];
+                    $label = $_POST['label']?$_POST['label']:a_get_page_title($link);
+                    $sortnum = db_get_single('SELECT sorting FROM menus ORDER BY sorting DESC')+1;
+                    $updates = array(
+                        'menu' => $_GET['menu'],
+                        'label' => $label,
+                        'type' => 'page',//$_POST['type'],
+                        'link' => $link,
+                        'sorting' => $sortnum
+                    );
+                    db_new_row('menus',$updates);
+                    break;
+                case('moveitem'):
+                        /*
+                        // Move everything right of ITEM to one step to the right
+                        // Why did I even write this code?
+                        $items = db_get_rows('SELECT sorting,id FROM MENUS WHERE menu='.$menu.' ORDER BY sorting DESC');
+                        //print_r($items);
+                        foreach($items as $itemArr){
+                            if ($itemArr['sorting'] < $currentsort) continue;
+                            $newsort = $itemArr['sorting']+1;
+                            //print 'Updating id'.$itemArr['id'].' sorting '.$itemArr['sorting'].'->'.$newsort.'<br/>';
+                            db_update_by_id('menus',$itemArr['id'],array('sorting'=>$newsort));
+                        }
+                        */
+                    $item = $_GET['item'];
+                    $menu = $_GET['menu'];
+                    $dir  = $_GET['dir'];
+                    $oldsort = db_get_single('SELECT sorting FROM menus WHERE id='.$item);
+                    $q=$dir==1?"SELECT id,sorting FROM menus WHERE sorting>$oldsort ORDER BY sorting LIMIT 1":"SELECT id,sorting FROM menus WHERE sorting<$oldsort ORDER BY sorting DESC";
+                        list($ngbr,$newsort) = db_get_single_row($q);
+                        // Set ITEM sorting to new sorting value
+                        db_update_by_id('menus', $item, array('sorting'=>$newsort));
+                        
+                        // Set ITEM neighbour sorting to new sorting value
+                        db_update_by_id('menus', $ngbr, array('sorting'=>$oldsort));
+                    break;
+                default:
+                    $err = '&errorid='.E_NOT_IMPLEMENTED;
+                    break;
+                }
             break;
         default:
             $err = '&errorid='.E_UNKNOWN_SAVE;
@@ -108,131 +177,33 @@
     header('Location: '.$red.$err);
  }
  
- function a_do_edit_page($page,$tab){
-    global $_DB;
-    global $a_new_page;
-    $tab=$tab?$tab:'content';
-    if($a_new_page){
-        $title = 'New page';
-    }
-    else{
-        $r = db_page($page);
-        $title = $r['title'];
-    }
-    $red = base64_encode("?edit=page&page=$page");
-    $content = htmlentities($r['content']);
-	print <<<END
-    <form style="display:block;height:100%;margin:0px;padding:0px;" action="?save=page&page=$page&tab=$tab&red=$red" method="post">
-     <table style="height:100%;padding-top:6px" width="100%" height="100%">
-      <tr>
-       <td height="14"><h3 style="margin:0px;display:inline;margin-left:10px">$title&nbsp;</h3>
-
-END;
-    print a_do_tabs($page,$tab);
-    print <<<END
-       </td>
-       <td style="text-align:right;padding-right:10px;height:30px">
-        <a href="javascript:deletePage()" class="butlink butdanger">Delete page</a>
-        <a href="javascript:document.forms[0].submit()" class="butlink">Save changes</a>
-       </td>
-      </tr>
-      <tr>
-       <td colspan="3" style="padding:10px;padding-top:0px">
-
-END;
-    if($tab == 'settings'){
-        print "        <div id=\"settings\" class=\"tabcontainer\"><h3>Nothing here yet...</h3></div>\n";
-    }
-    elseif($tab == 'add') {
-        print <<<END
-        <div id="add" class="tabcontainer">
-         <h3>Add a new page</h3>
-        <table>
-         <tr>
-          <td align="right">Page Title:</td>
-          <td><input name="_newp_title" id="_title" onchange="title2name()" class="bigtext" /></td>
-          <td><a class="help" href="javascript:showhelp('new_page_title')">?</a></td>
-         </tr>
-         <tr>
-          <td align="right">Page Name:</td>
-          <td><input name="_newp_name" id="_name" onchange="title2name()" class="bigtext" /></td>
-          <td><a class="help" href="javascript:showhelp('new_page_name')">?</a></td>
-         </tr>
-         <tr>
-          <td align="right">Page Type:</td>
-          <td>
-           <select name="_newp_type" class="bigtext">
-            <option value="html">HTML</option>
-            <option value="guestbook">Guestbook</option>
-            <option value="news">News</option>
-           </select>
-          </td>
-          <td><a class="help" href="javascript:showhelp('new_page_type')">?</a></td>
-         </tr>
-         <tr>
-          <td align="right">Create where?</td>
-          <td>
-           <select name="_newp_location" class="bigtext">
-            <option value="_">/</option>
-           </select>
-          </td>
-          <td><a class="help" href="javascript:showhelp('new_page_location')">?</a></td>
-         </tr>
-         <tr>
-          <td colspan="2" align="right" class="submit"><a class="butlink" href="javascript:title2name(); document.forms[0].submit()">Create page!</a></td>
-          <td>&nbsp;</td>
-         </tr>
-        </table>
-        </div>
-END;
-    }
-    elseif($tab == 'content') {
-        print "        <textarea id=\"content\" name=\"content\">$content</textarea>\n";
-    }
-    else a_do_custom_tab($tab);
-    print <<<END
-       </td>
-      </tr>
-     </table>
-    </form>
-
-END;
+ function a_delete_and_redir(){
+    $type = $_GET['delete'];
+    $tab = $_GET['tab'];
+    $sub = $_GET['sub'];
+    $page = $_GET['page'];
+    $item = $_GET['item'];
+    $red  = base64_decode($_GET['red']);
+    $red==''?$red='?':0;
+    $err  = '';
+    switch($type){
+        case('page'):
+            db_delete_row('pages',array('name'=>$page));
+            break;
+        case('menu'):
+            $err = '&errorid='.E_NOT_IMPLEMENTED;
+            break;
+        case('menuitem'):
+            // Remove from $var1 where $var2Ident = $var2Var
+            db_delete_row('menus',array('id'=>$item));
+            break;
+        default:
+            $err = '&errorid='.E_UNKNOWN_SAVE;
+            break;
+        }
+    header('Location: '.$red.$err);
  }
  
- function a_do_edit_menu($menu){
-    global $_DB;
-    global $a_new_menu;
-    #$tab=$tab?$tab:'content';
-    $red = base64_encode("?edit=page&page=$page");
-
-	print <<<END
-    <form style="display:block;height:100%;margin:0px;padding:0px;" action="?save=menu&menu=$menu&red=$red" method="post">
-     <table style="height:100%;padding-top:6px" width="100%" height="100%">
-      <tr>
-       <td height="14">
-        <h3 style="margin:0px;display:inline;margin-left:10px">Edit menu</h3>
-       </td>
-       <td style="text-align:right;padding-right:10px;height:30px">
-        <a href="javascript:deleteMenu()" class="butlink butdanger">Delete menu</a>
-        <a href="javascript:document.forms[0].submit()" class="butlink">Save changes</a>
-       </td>
-      </tr>
-      <tr>
-       <td colspan="3" style="padding:10px;padding-top:0px">
-        <div id="menu" class="tabcontainer">
-         <h3>Current menu items:</h3>
-END;
-print 'lala';
-print <<<END
-         <h3>Add items:</h3>
-         <select><option>lala</option></select>
-        </div>
-       </td>
-      </tr>
-     </table>
-    </form>
-
-END;
- }
+ 
  
 ?>

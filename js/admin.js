@@ -21,6 +21,7 @@ function title2name(){
     //setTimeout('t2n()', delay);
 }
 
+/*  NOT NEEDED, remove?
 function setAutoResize(ed)
 {   
     //Function to fix iframe to document height
@@ -80,11 +81,26 @@ function alertAllEditorIDs () {
 
     alert("All editor IDs:\n" + IDs);
 }
+*/
 
-function deletePage(){
-    if(confirm('Are you sure you want to DELETE this page?')){
-        alert('Poff!');
+function deletePage(page, text){
+    if(confirm('Are you sure you want to DELETE "'+text+'"?')){
+        red = Base64.encode('?');
+        top.location.href = '?delete=page&page='+page+'&red='+red;
     }
+}
+
+function removeMenuItem(menu, item, text){
+    if(confirm('Are you sure you want to remove menu item "'+text+'"?')){
+        document.getElementById('mi'+menu+'-'+item).style.display = 'none';
+        red = Base64.encode('?edit=menu&menu='+menu);
+        top.location.href = '?delete=menuitem&item='+item+'&menu='+menu+'&red='+red;
+    }
+}
+
+function moveMenuItem(menu, item, dir){
+    red = Base64.encode('?edit=menu&menu='+menu);
+    top.location.href = '?save=menu&sub=moveitem&item='+item+'&menu='+menu+'&dir='+dir+'&red='+red;
 }
 
 function init_mce(type){
@@ -133,8 +149,10 @@ function init_mce(type){
 
 }
 
+/*
 function testa(){
     alertAllEditorIDs();
     alert(tinyMCE.get("content"));
     setAutoResize(tinyMCE.get("content"));
 }
+*/

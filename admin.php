@@ -13,6 +13,11 @@
     // Save data in POST and redirect browser
     die(a_save_and_redir());
  }
+  if($_GET['delete']){
+    // Save data in POST and redirect browser
+    die(a_delete_and_redir());
+ }
+ 
  
  $a_edit_new = $_GET['page']=='_new'?True:False;
  if($a_edit_new){
@@ -32,6 +37,7 @@
  <head>
   <link rel="stylesheet" href="etc/admin.css" type="text/css" /> 
   <script src="js/tiny_mce/tiny_mce.js"></script>
+  <script src="js/base64.js"></script>
   <script src="js/admin.js"></script>
   <title>t3CMS: Administration Panel</title>
  </head>
@@ -72,8 +78,14 @@
     <td id="tmain">
 <?php
     switch($_GET['edit']){
-        case('page'): a_do_edit_page($_GET['page'],$_GET['tab']); break;
-        case('menu'): a_do_edit_menu($_GET['menu']); break;
+        case('page'):
+            include_once('inc/inc.admin-pages.php');
+            a_do_edit_page($_GET['page'],$_GET['tab']);
+            break;
+        case('menu'):
+            include_once('inc/inc.admin-menus.php');
+            a_do_edit_menu($_GET['menu']);
+            break;
         default: print ''; break;
     }
 ?>

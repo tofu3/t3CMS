@@ -24,6 +24,9 @@
  // Pretty style: t3CMS/pagename
  
  list($page_title, $page_type, $page_content, $page_name, $page_id, $page_sub) = get_page();
+ if(!$page_id){ // Change this later, perhaps. Discuss.
+    list($page_title, $page_type, $page_content, $page_name, $page_id, $page_sub) = get_page('404');
+ }
  #$subpages = get_subpages($page_name);
  $type_root = "pt/$page_type";
  include("pt/$page_type/inc.php");

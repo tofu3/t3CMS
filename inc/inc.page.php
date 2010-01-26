@@ -6,9 +6,14 @@
 */
  include_once('inc/inc.db.php');
 
- function get_page(){
-    $default = db_setting('default_page');
-    @$page=$_GET['page']?$_GET['page']:$default;
+ function get_page($override = 0){
+    if(!$override){
+        $default = db_setting('default_page');
+        @$page=$_GET['page']?$_GET['page']:$default;
+    }
+    else {
+        $page = $override;
+    }
     $pagedata = db_page($page);
     return array($pagedata['title'],$pagedata['type'],$pagedata['content'],$page,$pagedata['id'],$pagedata['sub']);
  }
