@@ -34,13 +34,13 @@ body {background-color: #ccc}
 #tmenu {height: 30px; background: #042}
 #tmain {vertical-align: top; background-color: #fff; padding: 10px;
     background: -moz-linear-gradient(90deg, #fff 99%, #aaa);/*Mozilla Gradient*/
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.99, #fff), color-stop(1, #aaa)); /*WebKit Gradient*/
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0.99, #fff), color-stop(1, #aaa)); /*WebKit Gradient*/
 }
 #tfoot {height: 30px; text-align: center; background-color: #ddd; color: #999;
     text-shadow: #eee 1px 1px; border-top: 1px #aaa solid; font-size: 12px}
 #smenu {vertical-align: top; padding: 5px; background-color: #eee; width: 160px; border-right: 1px #aaa solid;
     background: -moz-linear-gradient(90deg, #eee 99%, #aaa);/*Mozilla Gradient*/
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.99, #eee), color-stop(1, #aaa)); /*WebKit Gradient*/
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0.99, #eee), color-stop(1, #aaa)); /*WebKit Gradient*/
 }
 #smenu a {text-decoration: none; color: #333; margin-left: 18px; display:block; margin-top: 3px; margin-bottom: 3px}
 #smenu h3 a {margin-left: 4px}
