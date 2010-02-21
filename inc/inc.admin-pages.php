@@ -56,6 +56,8 @@ END;
             <option value="html">HTML</option>
             <option value="guestbook">Guestbook</option>
             <option value="news">News</option>
+            <option value="music">Music</option>
+            <option value="gallery">Gallery</option>
            </select>
           </td>
           <td><a class="help_img" href="javascript:showhelp('new_page_type')"><img src="img/help-browser32.png" alt="?" /></a></td>
