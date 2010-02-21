@@ -5,40 +5,44 @@
  TODO: Security!
 */
  @include_once('settings.php');
+ 
+ $_DBp = $_S['dbPrfix'];
 
  try {
-  $_DB = new PDO($_S['dbType'].':'.$_S['dbPath']);
+  $_DB = new PDO($_S['dbConnectionString'],$_S['dbUser'],$_S['dbPass']);
  }
- catch (PDOException $e) {
-	print 'Database error.';
+ catch (Exception $e) {
+	print '<pre>Database error.';
+    print_r($e);
+    print '</pre>';
 	die();
  }
  
  function db_setting($name){
-    global $_DB;
-    $q = $_DB->query("SELECT value FROM settings WHERE name='$name'");
+    global $_DB, $_DBp;
+    $q = $_DB->query("SELECT value FROM {$_DBp}settings WHERE name='$name'");
     $r = $q->fetch();
     return $r[0];
  }
  
  function db_page($name) {
-    global $_DB;
-    $q = $_DB->query("SELECT * FROM pages WHERE name='$name'");
+    global $_DB, $_DBp;
+    $q = $_DB->query("SELECT * FROM {$_DBp}pages WHERE name='$name'");
     $r = $q->fetch();
     return $r;
  }
  
  function db_subpages($sub){
-    global $_DB;
-    foreach($_DB->query("SELECT * FROM pages WHERE sub='$sub'") as $r){
+    global $_DB, $_DBp;
+    foreach($_DB->query("SELECT * FROM {$_DBp}pages WHERE sub='$sub'") as $r){
         $o[] = $r;
     }
     return $o;
  }
  
  function db_titlefromname($name){
-    global $_DB;
-    $q = $_DB->query("SELECT title FROM pages WHERE name='$name'");
+    global $_DB, $_DBp;
+    $q = $_DB->query("SELECT title FROM {$_DBp}pages WHERE name='$name'");
     $r = $q->fetch();
     return $r[0];
  }
@@ -48,12 +52,12 @@
  }
  
  function db_delete_row($table, $conditions){
-    global $_DB;
+    global $_DB, $_DBp;
     foreach($conditions as $ident => $var){
         $constr .= "AND $ident='$var'";
     }
     $constr = substr($constr,3);
-    $query = "DELETE FROM $table WHERE $constr";
+    $query = "DELETE FROM {$_DBp}$table WHERE $constr";
     $r = $_DB->query($query);
     if(!$r){
         print _e(E_DATABASE_MISC);
@@ -66,14 +70,15 @@
  }
  
  function db_new_row($table,$updates){
-    global $_DB;
+    global $_DB, $_DBp;
     foreach($updates as $ident=>$value){
-        $ids .= "','".$ident;
+        $ids .= ",".$ident;
         $vls .= "','".$value;
     }
-    $ids = substr($ids,2)."'"; // Turn ','a','b','c into 'a','b','c'
+    //$ids = substr($ids,2)."'"; // Turn ','a','b','c into 'a','b','c'
+    $ids = substr($ids,1);
     $vls = substr($vls,2)."'"; // dito
-    $q = "INSERT INTO $table ($ids) VALUES ($vls)";
+    $q = "INSERT INTO {$_DBp}$table ($ids) VALUES ($vls)";
     $r = $_DB->query($q);
     if(!$r){
         print _e(E_DATABASE_MISC);
@@ -86,14 +91,14 @@
  }
  
   function db_get_single($query){
-    global $_DB;
+    global $_DB, $_DBp;
     $q = $_DB->query($query);
     $r = $q->fetch();
     return $r[0];
   }
   
   function db_get_single_row($query){
-    global $_DB;
+    global $_DB, $_DBp;
     $q = $_DB->query($query);
     if(!$q){
         print _e(E_DATABASE_MISC);
@@ -108,7 +113,7 @@
   }
    
   function db_get_rows($query){
-    global $_DB;
+    global $_DB, $_DBp;
     $q = $_DB->query($query);
     if(!$q){
         print _e(E_DATABASE_MISC);
@@ -125,13 +130,13 @@
   }
  
   function db_update($table,$name,$updates){
-    global $_DB;
+    global $_DB, $_DBp;
     foreach($updates as $ident=>$value){
         $ids .= ",$ident=?";
         $vls[] = stripslashes($value);
     }
     $ids = substr($ids,1);
-    $q = "UPDATE $table SET $ids WHERE name='$name'";
+    $q = "UPDATE {$_DBp}$table SET $ids WHERE name='$name'";
     $s = $_DB->prepare($q);
     $r = $s->execute($vls);
 
@@ -146,13 +151,13 @@
   }
     
   function db_update_by_id($table,$id,$updates){
-    global $_DB;
+    global $_DB, $_DBp;
     foreach($updates as $ident=>$value){
         $ids .= ",$ident=?";
         $vls[] = stripslashes($value);
     }
     $ids = substr($ids,1);
-    $q = "UPDATE $table SET $ids WHERE id='$id'";
+    $q = "UPDATE {$_DBp}$table SET $ids WHERE id='$id'";
     $s = $_DB->prepare($q);
     $r = $s->execute($vls);
 

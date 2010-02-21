@@ -16,9 +16,9 @@
 
  
  function a_do_pages($sub = '_', $lvl = 0){
-    global $_DB;
+    global $_DB, $_DBp;
     $active_page = $_GET['page'];
-    foreach ($_DB->query("SELECT * FROM pages where sub='$sub' ORDER BY special,id") as $r){
+    foreach ($_DB->query("SELECT * FROM {$_DBp}pages where sub='$sub' ORDER BY special,id") as $r){
         $spacing = str_repeat('&rarr;&nbsp;&nbsp;',$lvl);
         $active = $active_page==$r['name']?' active':'';
         print "   <a href=\"?edit=page&page={$r['name']}\" class=\"$active\">$spacing{$r['title']}</a>\n";
@@ -27,17 +27,17 @@
  }
  
   function a_get_menu_items($menu){
-    global $_DB;
+    global $_DB, $_DBp;
     $retarr = array();
-    foreach ($_DB->query("SELECT * FROM menus where menu='$menu' ORDER BY sorting") as $r){
+    foreach ($_DB->query("SELECT * FROM {$_DBp}menus where menu='$menu' ORDER BY sorting") as $r){
         $retarr[] = array($r['type'],$r['label'],$r['link'],$r['id']);
     }
     return $retarr;
  }
 
  function a_get_nonmenu_items(){
-    global $_DB;
-    foreach ($_DB->query("SELECT * FROM pages where sub='_'") as $r){
+    global $_DB, $_DBp;
+    foreach ($_DB->query("SELECT * FROM {$_DBp}pages where sub='_'") as $r){
         $retarr[] = array($r['name'],$r['title']);
     }
     return $retarr;
@@ -63,9 +63,9 @@
  }
  
  function a_do_menus(){
-    global $_DB;
+    global $_DB, $_DBp;
 	$a = array();
-    foreach ($_DB->query("SELECT * FROM menus") as $r){
+    foreach ($_DB->query("SELECT * FROM {$_DBp}menus") as $r){
 		if (! in_array($r['menu'],$a)){
 			print "   <a href=\"?edit=menu&menu={$r['menu']}\">Menu #{$r['menu']}</a>\n";
 			$a[] = $r['menu'];

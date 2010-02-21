@@ -4,7 +4,7 @@
  Main page
  TODO: ALOT
 */
- $_D = False;#True; // Enable debugging
+ $_D = True;#True; // Enable debugging
 
  include_once('inc/inc.session.php');
  include_once('inc/inc.settings.php');
