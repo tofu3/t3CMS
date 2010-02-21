@@ -3,3 +3,6 @@ lib
 
 # setup is not used yet
 setup
+
+# bad idea to upload cache
+cache

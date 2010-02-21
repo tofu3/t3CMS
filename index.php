@@ -9,6 +9,7 @@
  include_once('inc/inc.session.php');
  include_once('inc/inc.settings.php');
  include_once('inc/inc.db.php');
+ include_once('inc/inc.cache.php');
  include_once('inc/inc.build-functions.php');
  include_once('inc/inc.page.php');
  
@@ -16,7 +17,7 @@
  
  $DBC = d_getdbasarray();
 
- $sel_style = db_setting('style');
+ $sel_style = $_GET['style']?$_GET['style']:db_setting('style');
  $style_root = "styles/$sel_style";
  
  $url_style = $_GET['urlstyle']?$_GET['urlstyle']:'ugly'; // Default to ugly for now
