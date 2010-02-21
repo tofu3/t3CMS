@@ -1,7 +1,7 @@
 <?php
 
  function a_do_edit_menu($menu){
-    global $_DB;
+    global $_DB, $_DBp;
     $a_new_menu = $_GET['menu']=='_new'?True:False;
     #$tab=$tab?$tab:'content';
     $red = base64_encode("?edit=menu&menu=$menu");

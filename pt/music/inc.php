@@ -10,13 +10,13 @@
  include("$type_root/styles/$pt_musicstyle.php");
 
  function do_page($content, $name){
-    global $_DB;
+    global $_DB,$_DBp;
     global $type_root;
     print $content;
 
     do_musichead();
 
-    foreach ($_DB->query("SELECT * FROM pt_music_data WHERE pageid='$name'") as $r){
+    foreach ($_DB->query("SELECT * FROM {$_DBp}pt_music_data WHERE pageid='$name'") as $r){
         $lyrics = $r['lyrics']?' (<a href=\"lyrics/'.$r['id'].'\">lyrics</a>)':'';
         $containers[$r['container']][] = array($r['title'],$r['url'],$lyrics);
         //do_musicrow($r['title'],$r['url'],$r['']);

@@ -95,6 +95,7 @@
  }
  
  function a_save_and_redir(){
+    global $_DBe;
     $type = $_GET['save'];
     $tab = $_GET['tab'];
     $sub = $_GET['sub'];
@@ -130,7 +131,7 @@
                 case('additem'):
                     $link = $_POST['target'];
                     $label = $_POST['label']?$_POST['label']:a_get_page_title($link);
-                    $sortnum = db_get_single('SELECT sorting FROM menus ORDER BY sorting DESC')+1;
+                    $sortnum = db_get_single("SELECT sorting FROM {$_DBe}menus ORDER BY sorting DESC")+1;
                     $updates = array(
                         'menu' => $_GET['menu'],
                         'label' => $label,

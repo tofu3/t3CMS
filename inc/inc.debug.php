@@ -12,14 +12,14 @@
  }
  
  function d_getdbasarray(){
-    global $_DB;
+    global $_DB,$_DBp;
     $d_inctables = array('settings','pt_guestbook','pages');
  
     $DBC = array();
  
     foreach ($d_inctables as $t){
         $i = 0;
-        foreach ($_DB->query("SELECT * from $t") as $r){
+        foreach ($_DB->query("SELECT * from {$_DBp}$t") as $r){
             $i++;
                 foreach($r as $n=>$v)
                     if (!is_int($n))
